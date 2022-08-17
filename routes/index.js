@@ -16,15 +16,10 @@ router.get('/', ensureGuest, (req,res) => {
 router.get('/dashboard', ensureAuth, async (req, res) => { 
     try {
         const boards = await Board.find({ user: req.user.id }).lean();
-
-        if (boards.length >= 1) {
-            return res.redirect(`/boards/${boards[0].id}`);
-        } else {
-            return res.render('dashboard', {
-                name: req.user.firstName
-            })
-        }
-
+        res.render('dashboard', {
+                name: req.user.firstName,
+                boards
+        })
     } catch (err) {
         console.error(err)
         res.render('error/500')

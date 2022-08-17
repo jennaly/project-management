@@ -16,7 +16,10 @@ require('./config/passport')(passport)
 
 connectDB()
 
-const app = express()
+const app = express();
+
+app.use(express.urlencoded({extended: false}))
+app.use(express.json())
 
 //Logging
 if(process.env.NODE_ENV === 'development') {
@@ -54,6 +57,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 //Routes
 app.use('/', require('./routes/index'))
 app.use('/auth', require('./routes/auth'))
+app.use('/boards', require('./routes/boards'))
 
 const PORT = process.env.PORT || 8880
 

@@ -2,10 +2,11 @@
 <h3>Welcome {{name}}</h3>
 {{#if boards}}
     <p>Here are your boards</p> 
-    {{#each stories}}
-        <p><a href="/board/{{_id}}">{{title}}</a></p>
+    {{#each boards}}
+        <p><a href="/boards/{{_id}}">{{title}}</a></p>
     {{/each}}
 
 {{else}}
     <p>You have not created any boards</p>
-{{/if}}
+{{/if}} 
+{{> _add_board_btn}}
