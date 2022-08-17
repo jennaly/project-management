@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Management</title>
-</head>
-<body>
-    {{{body}}}
-</body>
-</html>
+<h6>Dashboard</h6>
+<h3>Welcome {{name}}</h3>
+{{#if boards}}
+    <p>Here are your boards</p> 
+    {{#each stories}}
+        <p><a href="/board/{{_id}}">{{title}}</a></p>
+    {{/each}}
+
+{{else}}
+    <p>You have not created any boards</p>
+{{/if}}
