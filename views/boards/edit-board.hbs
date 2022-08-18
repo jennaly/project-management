@@ -1,0 +1,16 @@
+<h3>Edit Board </h3>
+<div class="row">
+    <form action="/boards/{{boardId}}" method="POST" class="col s12">
+        <div class="row">
+            <div class="input-field">
+                <input type="text" id="title" name="title" value="{{title}}">
+                <label for="title">Title</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <input type="submit" value="Save" class="btn">
+            <a href="/home" class="btn orange">Cancel</a>
+        </div>
+    </form>
+</div>

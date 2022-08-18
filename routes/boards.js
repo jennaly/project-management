@@ -6,11 +6,11 @@ const Task = require('../models/Task')
 
 
 // @desc    Show add board page
-// @route   GET /board/add
+// @route   GET /boards/add
 router.get('/add', ensureAuth, async (req, res) => {
   try {
     const boards = await Board.find({ user: req.user.id }).lean();
-    res.render('boards/add', {
+    res.render('boards/add-board', {
       boards
     })
   } catch (err) {
@@ -34,7 +34,37 @@ router.post('/', ensureAuth, async (req, res) => {
     }
 })
 
+// @desc Show board edit page
+// @route GET /boards/boardId/edit
+router.get('/:boardId/edit', ensureAuth, async (req,res) => {
+  try {
+    const board = await Board.findOne({ _id: req.params.boardId }).lean();
+    
+    res.render('boards/edit-board', {
+      boardId: board._id,
+      title: board.title
+    })
+  } catch (err) {
+      console.error(err)
+      res.render('error/500')
+  }
 
+})
+
+// @desc Process form that edits board
+// @route POST /boards/boardId
+router.post('/:boardId', ensureAuth, async (req, res) => {
+  try {
+    await Board.findOneAndUpdate({ _id: req.params.boardId }, {
+      title: req.body.title
+    }).lean();
+
+    res.redirect('/')
+  } catch (err) {
+    console.err(error);
+    res.render('error/500')
+  }
+})
 
 //TASKS
 
@@ -99,7 +129,7 @@ router.post('/:boardId', ensureAuth, async (req, res) => {
   }
 })
 
-//@desc Show edit page
+//@desc Show task edit page
 //@route GET /boards/boardId/taskId/edit
 router.get('/:boardId/:taskId/edit', ensureAuth, async (req,res) => {
   try {
@@ -123,8 +153,8 @@ router.get('/:boardId/:taskId/edit', ensureAuth, async (req,res) => {
 })
 
 
-//Process form for editing tasks
-//@route POST /boards/boardId/taskId/
+// @desc Process form for editing tasks
+// @route POST /boards/boardId/taskId/
 router.post('/:boardId/:taskId', ensureAuth, async (req,res) => {
   try {
     await Task.findOneAndUpdate({ _id: req.params.taskId }, {
