@@ -1,0 +1,25 @@
+<h6>home</h6>
+<h3>Welcome {{name}}</h3>
+{{#if boards}}
+    <p>Here are your boards</p> 
+    <table class="striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each boards}}
+                <tr>
+                    <td><a href="/boards/{{_id}}">{{title}}</a></td>
+                    <td>{{createdAt}}</td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+{{else}}
+    <p>You have not created any boards</p>
+{{/if}} 
+{{> _add_board_btn}}

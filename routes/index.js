@@ -11,14 +11,14 @@ router.get('/', ensureGuest, (req,res) => {
     })
 })
 
-//@desc Dashboard
-//@route GET / dashboard
-router.get('/dashboard', ensureAuth, async (req, res) => { 
+//@desc home
+//@route GET / home
+router.get('/home', ensureAuth, async (req, res) => { 
     try {
         const boards = await Board.find({ user: req.user.id }).lean();
-        res.render('dashboard', {
-                name: req.user.firstName,
-                boards
+        res.render('home', {
+            name: req.user.firstName,
+            boards
         })
     } catch (err) {
         console.error(err)
