@@ -5,10 +5,19 @@ const Board = require('../models/Board')
 const Task = require('../models/Task')
 
 
-// @desc    Show add page
+// @desc    Show add board page
 // @route   GET /board/add
-router.get('/add', ensureAuth, (req, res) => {
- res.render('boards/add')
+router.get('/add', ensureAuth, async (req, res) => {
+  try {
+    const boards = await Board.find({ user: req.user.id }).lean();
+    res.render('boards/add', {
+      boards
+    })
+  } catch (err) {
+    console.err(error);
+    res.render('error/500')
+  }
+
 })
 
 
@@ -33,16 +42,20 @@ router.post('/', ensureAuth, async (req, res) => {
 //@route GET / boards/:boardId
 router.get('/:boardId', ensureAuth, async (req, res) => { 
   try {
-      const boards = await Board.find( {user: req.user.id }).lean();
+      const boards = await Board.find({ user: req.user.id }).lean();
       const board = await Board.findOne({ _id: req.params.boardId });
-      const tasks = await Task.find({ user: req.user.id, board: req.params.boardId }).lean();
-      
+      const todo = await Task.find({ user: req.user.id, board: req.params.boardId, status: 'todo'}).lean();
+      const doing = await Task.find({ user: req.user.id, board: req.params.boardId, status: 'doing'}).lean();
+      const done = await Task.find({ user: req.user.id, board: req.params.boardId, status: 'done'}).lean();
+
       res.render('boards/show', {
           name: req.user.firstName,
           boardName: board.title,
           boardId: board._id,
-          tasks,
-          boards
+          boards,
+          todo,
+          doing,
+          done
       })
   } catch (err) {
       console.error(err)
@@ -54,11 +67,13 @@ router.get('/:boardId', ensureAuth, async (req, res) => {
 //@route GET / boards/:boardId/add
 router.get('/:boardId/add', ensureAuth, async (req, res) => {
   try {
-    const board = await Board.findOne({ _id: req.params.boardId });
+
+    const board = await Board.findOne({ _id: req.params.boardId }).lean();
 
     res.render('boards/add-task', {
       boardId: board._id,
     });
+
   } catch (err) {
     console.error(err)
     res.render('error/500')
@@ -66,7 +81,7 @@ router.get('/:boardId/add', ensureAuth, async (req, res) => {
 })
 
 //@desc Process form for adding tasks to a board
-//@route POST / boards/:boardId
+//@route POST /boards/:boardId
 router.post('/:boardId', ensureAuth, async (req, res) => {
   try {
     const task = await Task.create({
@@ -84,4 +99,44 @@ router.post('/:boardId', ensureAuth, async (req, res) => {
   }
 })
 
+//@desc Show edit page
+//@route GET /boards/boardId/taskId/edit
+router.get('/:boardId/:taskId/edit', ensureAuth, async (req,res) => {
+  try {
+    const boards = await Board.find({ user: req.user.id }).lean();
+    const board = await Board.findOne({ _id: req.params.boardId }).lean();
+    const task = await Task.findOne({ _id: req.params.taskId }).lean();
+
+    res.render('boards/edit-task', {
+      boardId: board._id,
+      taskId: task._id,
+      title: task.title,
+      description: task.description,
+      status: task.status,
+      boards,
+    });
+
+  } catch (err) {
+    console.err(error);
+    res.render('error/500')
+  }
+})
+
+
+//Process form for editing tasks
+//@route POST /boards/boardId/taskId/
+router.post('/:boardId/:taskId', ensureAuth, async (req,res) => {
+  try {
+    await Task.findOneAndUpdate({ _id: req.params.taskId }, {
+      title: req.body.title,
+      description: req.body.description,
+      status: req.body.status,
+    }).lean();
+
+    res.redirect(`/boards/${req.params.boardId}`)
+  } catch (err) {
+    console.error(err);
+    res.render('error/500')
+  }
+})
 module.exports = router

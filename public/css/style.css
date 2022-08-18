@@ -4,6 +4,7 @@ body {
 
 p {
     margin: 10px 0 !important;
+    color: black;
 }
 .login-container {
     width: 400px;

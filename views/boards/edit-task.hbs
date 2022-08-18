@@ -1,0 +1,38 @@
+<h3>Edit Task </h3>
+<div class="row">
+    <form action="/boards/{{boardId}}/{{taskId}}" method="POST" class="col s12">
+        <div class="row">
+            <div class="input-field">
+                <input type="text" id="title" name="title" value="{{title}}">
+                <label for="title">Title</label>
+            </div>
+            
+        </div>
+
+        <div class="row">
+            <div class="input-field">
+                <input type="text" id="description" name="description" value="{{description}}">
+                <label for="description">Description</label>
+            </div>
+        </div>
+
+        
+        <div class="row">
+            <div class="input-field">
+                <select id="status" name="status">
+                    {{#select status}}
+                    <option value="todo">Todo</option>
+                    <option value="doing">Doing</option>
+                    <option value="done">Done</option>
+                    {{/select}}
+                </select>
+                <label for="status">Status</label>
+            </div>
+        </div>
+        
+        <div class="row">
+            <input type="submit" value="Save" class="btn">
+            <a href="/boards/{{boardId}}" class="btn orange">Cancel</a>
+        </div>
+    </form>
+</div>

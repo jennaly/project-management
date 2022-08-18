@@ -13,7 +13,7 @@
             {{#each boards}}
                 <tr>
                     <td><a href="/boards/{{_id}}">{{title}}</a></td>
-                    <td>{{createdAt}}</td>
+                    <td>{{formatDate createdAt 'MM/DD/YYYY'}}</td>
                 </tr>
             {{/each}}
         </tbody>
