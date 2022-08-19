@@ -76,7 +76,7 @@ router.delete('/:boardId', ensureAuth, async (req, res) => {
   try {
     await Board.remove({ _id: req.params.boardId })
     res.redirect('/home')
-    
+
   } catch (err) {
     console.error(err)
     return res.render('error/500')
@@ -191,7 +191,7 @@ router.post('/:boardId/:taskId', ensureAuth, async (req,res) => {
 
 // @desc Process form for deleting tasks
 // @route DELETE /boards/boardId/taskId
-router.delete('/:taskId', ensureAuth, async (req, res) => {
+router.delete('/:boardId/:taskId', ensureAuth, async (req, res) => {
   try {
     const task = await Task.findOne({ _id: req.params.taskId })
     await task.remove();

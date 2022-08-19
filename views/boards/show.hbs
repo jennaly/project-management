@@ -13,7 +13,7 @@
                         </div>
                         <div class="card-action">
                             <a href="/boards/{{../boardId}}/{{_id}}/edit">Edit</a>
-                            <form action="/boards/{{_id}}" method="POST" id="delete-task-form">
+                            <form action="/boards/{{../boardId}}/{{_id}}" method="POST" id="delete-task-form">
                                 <input type="hidden" name="_method" value="DELETE">
                                 <button type="submit" class="btn red">
                                     <i class="fas fa-trash"></i>
