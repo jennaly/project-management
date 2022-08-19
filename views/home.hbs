@@ -15,6 +15,14 @@
                     <td><a href="/boards/{{_id}}">{{title}}</a></td>
                     <td>{{formatDate createdAt 'MM/DD/YYYY'}}</td>
                     <td><a href="/boards/{{_id}}/edit">Edit</a></td>
+                    <td>
+                        <form action="/boards/{{_id}}" method="POST" id="delete-board-form">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="btn red">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </td>
                 </tr>
             {{/each}}
         </tbody>

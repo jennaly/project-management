@@ -13,7 +13,7 @@ router.get('/add', ensureAuth, async (req, res) => {
     res.render('boards/add-board', {
       boards
     })
-    
+
   } catch (err) {
     console.err(error);
     res.render('error/500')
@@ -67,6 +67,19 @@ router.post('/:boardId', ensureAuth, async (req, res) => {
   } catch (err) {
     console.err(error);
     res.render('error/500')
+  }
+})
+
+// @desc Process form that deletes board
+// @route DELETE /boards/boardId
+router.delete('/:boardId', ensureAuth, async (req, res) => {
+  try {
+    await Board.remove({ _id: req.params.boardId })
+    res.redirect('/home')
+    
+  } catch (err) {
+    console.error(err)
+    return res.render('error/500')
   }
 })
 
