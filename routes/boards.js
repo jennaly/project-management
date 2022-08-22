@@ -55,8 +55,8 @@ router.get('/:boardId/edit', ensureAuth, async (req,res) => {
 })
 
 // @desc Process form that edits board
-// @route POST /boards/boardId
-router.post('/:boardId', ensureAuth, async (req, res) => {
+// @route PUT /boards/boardId
+router.put('/:boardId', ensureAuth, async (req, res) => {
   try {
     await Board.findOneAndUpdate({ _id: req.params.boardId }, {
       title: req.body.title
@@ -172,8 +172,8 @@ router.get('/:boardId/:taskId/edit', ensureAuth, async (req,res) => {
 
 
 // @desc Process form for editing tasks
-// @route POST /boards/boardId/taskId
-router.post('/:boardId/:taskId', ensureAuth, async (req,res) => {
+// @route PUT /boards/boardId/taskId
+router.put('/:boardId/:taskId', ensureAuth, async (req,res) => {
   try {
     await Task.findOneAndUpdate({ _id: req.params.taskId }, {
       title: req.body.title,

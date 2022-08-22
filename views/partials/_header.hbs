@@ -3,16 +3,16 @@
         <a href="/home" class="brand-logo center">Kanban</a>
         <a href="#" data-target="mobile-demo" class="sidenav-trigger show-on-large"><i class="fas fa-bars"></i></a>
         <ul class="sidenav" id="mobile-demo">
-            <li><a href="/home">Home</a></li>
+            <li><a href="/home">Kanban</a></li>
             {{#if boards}}
-                <p>All Boards</p>
+ 
+                <li><a class="subheader">All Boards</a></li>
                 
                 {{#each boards}}
                     <li><a href="/boards/{{_id}}">{{title}}</a></li>
                 {{/each}}
             {{/if}}
             
-
             <li><a href="/auth/logout">Logout</a></li>
         </ul>
     </div>
